@@ -89,48 +89,60 @@ export default async function handler(req, res) {
     */
 
     await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER,
-      replyTo: email,
+  from: process.env.EMAIL_USER,
+  to: process.env.EMAIL_USER,
+  replyTo: email,
 
-      subject: subject
-        ? `Portfolio Contact: ${subject}`
-        : `Portfolio Contact from ${name}`,
+  subject: subject
+    ? `Portfolio Contact: ${subject}`
+    : `Portfolio Contact from ${name}`,
 
-      html: `
-        <div style="font-family: Arial; padding: 20px;">
+  html: `
+    <h2>📩 New Portfolio Message</h2>
 
-          <h2>📩 New Portfolio Message</h2>
+    <p><b>Name:</b> ${name}</p>
+    <p><b>Email:</b> ${email}</p>
+    <p><b>Message:</b> ${message}</p>
+  `,
+});
 
-          <p>
-            <strong>Name:</strong> ${name}
-          </p>
 
-          <p>
-            <strong>Email:</strong> ${email}
-          </p>
+/*
+========================================
+AUTO REPLY TO USER
+========================================
+*/
 
-          <p>
-            <strong>Subject:</strong> ${subject || "No Subject"}
-          </p>
+await transporter.sendMail({
+  from: process.env.EMAIL_USER,
+  to: email,
 
-          <p>
-            <strong>Message:</strong>
-          </p>
+  subject: "Thanks for contacting me 🚀",
 
-          <div style="
-            background:#f4f4f4;
-            padding:15px;
-            border-radius:8px;
-            margin-top:10px;
-          ">
-            ${message}
-          </div>
+  html: `
+    <div style="font-family: Arial; padding: 20px;">
 
-        </div>
-      `,
-    });
+      <h2>Hey ${name} 👋</h2>
 
+      <p>
+        Thanks for reaching out through my portfolio website.
+      </p>
+
+      <p>
+        I have received your message and I'll get back to you soon.
+      </p>
+
+      <br/>
+
+      <p>
+        Regards,
+      </p>
+
+      <h3>Pankaj Pancholi</h3>
+
+    </div>
+  `,
+});
     /*
     =========================
     SUCCESS RESPONSE
