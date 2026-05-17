@@ -41,7 +41,7 @@ export default async function handler(req, res) {
         : `Portfolio Contact from ${name}`,
 
       html: `
-        <h2>New Portfolio Message</h2>
+        <h2>📩 New Portfolio Message</h2>
 
         <p><b>Name:</b> ${name}</p>
         <p><b>Email:</b> ${email}</p>
