@@ -6,8 +6,14 @@ const nodemailer = require("nodemailer");
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin:"*",
+}));
 app.use(express.json());
+
+app.get("/", (req, res) => {
+    res.send("Backend Running");
+});
 
 app.post("/api/contact", async (req, res) => {
   try {
@@ -22,16 +28,18 @@ app.post("/api/contact", async (req, res) => {
     });
 
     await transporter.sendMail({
-      from: email,
-      to: process.env.EMAIL_USER,
-      subject: `Portfolio Contact from ${name}`,
-      html: `
-        <h2>New Contact Message</h2>
-        <p><b>Name:</b> ${name}</p>
-        <p><b>Email:</b> ${email}</p>
-        <p><b>Message:</b> ${message}</p>
-      `,
-    });
+  from: process.env.EMAIL_USER,
+  replyTo: email,
+  to: process.env.EMAIL_USER,
+  subject: `Portfolio Contact from ${name}`,
+  html: `
+    <h2>New Contact Message</h2>
+    <p><b>Name:</b> ${name}</p>
+    <p><b>Email:</b> ${email}</p>
+    <p><b>Message:</b> ${message}</p>
+  `,
+});
+
 
     res.status(200).json({
       success: true,
